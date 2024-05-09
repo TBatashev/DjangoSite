@@ -1,0 +1,35 @@
+{% extends 'main.html' %}
+
+
+{% block content %}
+    {% load static %}
+
+    {% for post in posts %}
+        <div class="card mb-3">
+            <div class="row">
+                <div class="col-4">
+                    <img src="{{ post.thumbnail.url }}" class="card-img-top" alt="{{ post.title }}">
+                </div>
+                <div class="col-8">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+                        </h5>
+                        <p class="card-text">{{ post.description|safe }}</p>
+                        <small>Добавил {{ post.author.username }}, {{ post.create }},</small>
+                        в категорию: <a href="{{ post.category.get_absolute_url }}">{{ post.category.title }}</a>
+                    </div>
+                </div>
+                <div class="rating-buttons">
+                    <button class="btn btn-sm btn-primary" data-post="{{ post.id }}" data-value="1">👍</button>
+                    <button class="btn btn-sm btn-secondary" data-post="{{ post.id }}" data-value="-1">👎
+                    </button>
+                    <button class="btn btn-sm btn-secondary rating-sum">{{ post.get_sum_rating }}</button>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    <script src="{% static 'ratings.js' %}"></script>
+{% block script %}{% endblock %}
+{% endblock %}
+
